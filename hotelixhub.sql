@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2024 a las 18:43:57
+-- Tiempo de generación: 05-12-2024 a las 19:06:57
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -79,6 +79,7 @@ CREATE TABLE `producto` (
 CREATE TABLE `reservas` (
   `id_reserva` int(11) NOT NULL,
   `id_habitacion` int(11) NOT NULL,
+  `id_usuario` int(11) NOT NULL,
   `fecha_entrada` date NOT NULL,
   `fecha_salida` date NOT NULL,
   `estado` varchar(10) NOT NULL,
@@ -150,7 +151,8 @@ CREATE TABLE `venta` (
 -- Indices de la tabla `catalogo`
 --
 ALTER TABLE `catalogo`
-  ADD PRIMARY KEY (`id_catalogo`);
+  ADD PRIMARY KEY (`id_catalogo`),
+  ADD KEY `id_producto` (`id_producto`);
 
 --
 -- Indices de la tabla `categoria`
@@ -162,19 +164,23 @@ ALTER TABLE `categoria`
 -- Indices de la tabla `habitacion`
 --
 ALTER TABLE `habitacion`
-  ADD PRIMARY KEY (`id_habitacion`);
+  ADD PRIMARY KEY (`id_habitacion`),
+  ADD KEY `id_tipohab` (`id_tipohab`);
 
 --
 -- Indices de la tabla `producto`
 --
 ALTER TABLE `producto`
-  ADD PRIMARY KEY (`id_producto`);
+  ADD PRIMARY KEY (`id_producto`),
+  ADD KEY `id_categoria` (`id_categoria`);
 
 --
 -- Indices de la tabla `reservas`
 --
 ALTER TABLE `reservas`
-  ADD PRIMARY KEY (`id_reserva`);
+  ADD PRIMARY KEY (`id_reserva`),
+  ADD KEY `id_habitacion` (`id_habitacion`),
+  ADD KEY `id_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `rol`
@@ -192,13 +198,61 @@ ALTER TABLE `tipo_habitacion`
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD KEY `id_rol` (`id_rol`);
 
 --
 -- Indices de la tabla `venta`
 --
 ALTER TABLE `venta`
-  ADD PRIMARY KEY (`id_venta`);
+  ADD PRIMARY KEY (`id_venta`),
+  ADD KEY `id_usuario` (`id_usuario`),
+  ADD KEY `id_producto` (`id_producto`),
+  ADD KEY `id_catalogo` (`id_catalogo`);
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `catalogo`
+--
+ALTER TABLE `catalogo`
+  ADD CONSTRAINT `catalogo_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`);
+
+--
+-- Filtros para la tabla `habitacion`
+--
+ALTER TABLE `habitacion`
+  ADD CONSTRAINT `habitacion_ibfk_1` FOREIGN KEY (`id_tipohab`) REFERENCES `tipo_habitacion` (`id_tipohab`);
+
+--
+-- Filtros para la tabla `producto`
+--
+ALTER TABLE `producto`
+  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`);
+
+--
+-- Filtros para la tabla `reservas`
+--
+ALTER TABLE `reservas`
+  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_habitacion`) REFERENCES `habitacion` (`id_habitacion`),
+  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_habitacion`) REFERENCES `habitacion` (`id_habitacion`),
+  ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
+
+--
+-- Filtros para la tabla `usuario`
+--
+ALTER TABLE `usuario`
+  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`);
+
+--
+-- Filtros para la tabla `venta`
+--
+ALTER TABLE `venta`
+  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
+  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`),
+  ADD CONSTRAINT `venta_ibfk_3` FOREIGN KEY (`id_catalogo`) REFERENCES `catalogo` (`id_catalogo`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
