@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Nuevo Producto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            display: flex;
+            background-color: #ffffff;
+        }
+        .sidebar {
+            width: 200px;
+            height: 999px;
+            background-color: #3f317e;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+        .logo {
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        .header {
+            background-color: #4a78e3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            color: white;
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .agregar-btn {
+            background-color: #344584;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .main-content {
+            padding: 20px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Estilos de categoría y botones de imagen */
+        .category-box,
+        .image-box {
+            display: inline-block;
+            background-color: #f4f4f4;
+            width: 140px;
+            height: 140px;
+            margin: 10px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .category-box:hover,
+        .image-box:hover {
+            background-color: #e0e0e0;
+            border-color: #3f317e;
+        }
+
+        .category-box div,
+        .image-box div {
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .category-box .item-count,
+        .image-box .item-count {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .category-icon,
+        .image-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+        }
+        
+        /* Estilo para los botones del modal */
+        .button-modal {
+            background-color: #4a78e3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <!-- Barra lateral aquí -->
+    </div>
+    
+    <div class="main-content">
+        <div class="header">
+            <h1>Crear Nuevo Producto</h1>
+            <button class="agregar-btn" onclick="agregarFormulario()">Agregar Producto</button>
+            <button class="agregar-btn" onclick="enviarFormularios()">Enviar Productos</button>
+        </div>
+        
+        <div class="content">
+            <div class="section image-section">
+                <div class="section-title">Imagen del Producto</div>
+                <div class="grid">
+                    <div class="image-box" onclick="abrirModalImagen()">
+                        <div class="image-icon">➕</div>
+                        <div>Agregar Imagen</div>
+                    </div>
+                    <div class="image-box" onclick="abrirModalImagen()">
+                        <img src="/api/placeholder/40/60" alt="Botella naranja" class="product-bottle" style="background-color: orange; border-radius: 8px;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section category-section">
+                <div class="section-title">Categoría</div>
+                <div class="grid">
+                    <div class="category-box" onclick="abrirModalCategoria()">
+                        <div class="category-icon">📦</div>
+                        <div>Aseo</div>
+                        <div class="item-count">100 items</div>
+                    </div>
+                    <div class="category-box" onclick="abrirModalCategoria()">
+                        <div class="category-icon">🍾</div>
+                        <div>Bebidas</div>
+                        <div class="item-count">100 items</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section details-section">
+                <div class="section-title">Detalles del Producto</div>
+                <div id="formularios"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de imágenes -->
+    <div id="modalImagen" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('modalImagen')">&times;</span>
+            <p id="modalMensajeImagen">Seleccionar imagen para el producto.</p>
+            <button class="button-modal" onclick="cerrarModal('modalImagen')">Cerrar</button>
+        </div>
+    </div>
+
+    <!-- Modal de categorías -->
+    <div id="modalCategoria" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="cerrarModal('modalCategoria')">&times;</span>
+            <p id="modalMensajeCategoria">Seleccionar categoría para el producto.</p>
+            <button class="button-modal" onclick="cerrarModal('modalCategoria')">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        function agregarFormulario() {
+            const container = document.getElementById('formularios');
+    
+            const div = document.createElement('div');
+            div.classList.add('product-form');
+    
+            div.innerHTML = `
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-input" placeholder="Ingrese el Nombre del Producto">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Marca</label>
+                        <input type="text" class="form-input" placeholder="Ingrese la Marca del Producto">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Precio</label>
+                        <input type="text" class="form-input" placeholder="Ingrese el Valor del Producto">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Cantidad</label>
+                        <input type="text" class="form-input" placeholder="Ingrese la Cantidad del Producto">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea class="form-textarea" placeholder="Ingrese una Breve Descripción del Producto"></textarea>
+                </div>
+                <button class="remove-btn" onclick="this.parentNode.remove()">Eliminar</button>
+            `;
+    
+            container.appendChild(div);
+        }
+
+        function enviarFormularios() {
+            const formularios = document.querySelectorAll('.product-form');
+            const productos = [];
+    
+            formularios.forEach(formulario => {
+                const nombre = formulario.querySelector('input[placeholder="Ingrese el Nombre del Producto"]').value.trim();
+                const marca = formulario.querySelector('input[placeholder="Ingrese la Marca del Producto"]').value.trim();
+                const precio = formulario.querySelector('input[placeholder="Ingrese el Valor del Producto"]').value.trim();
+                const cantidad = formulario.querySelector('input[placeholder="Ingrese la Cantidad del Producto"]').value.trim();
+                const descripcion = formulario.querySelector('textarea[placeholder="Ingrese una Breve Descripción del Producto"]').value.trim();
+    
+                if (nombre && marca && precio && cantidad && descripcion) {
+                    productos.push({ nombre, marca, precio, cantidad, descripcion });
+                } else {
+                    alert("Por favor, completa todos los campos antes de enviar.");
+                    return;
+                }
+            });
+    
+            if (productos.length === 0) {
+                alert("No hay productos para enviar.");
+                return;
+            }
+    
+            console.log("Productos a enviar:", productos);
+        }
+
+        function abrirModalImagen() {
+            document.getElementById('modalImagen').style.display = "block";
+        }
+
+        function abrirModalCategoria() {
+            document.getElementById('modalCategoria').style.display = "block";
+        }
+
+        function cerrarModal(modalId) {
+            document.getElementById(modalId).style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
