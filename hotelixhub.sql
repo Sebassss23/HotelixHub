@@ -1,260 +1,93 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
---
--- Servidor: 127.0.0.1
--- Tiempo de generación: 05-12-2024 a las 19:06:57
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+CREATE DATABASE HotelDB;
+USE HotelDB;
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+-- Tabla Rol
+CREATE TABLE Rol (
+    id_rol INT PRIMARY KEY,
+    rol_nombre VARCHAR(11)
+);
 
+-- Tabla Nacionalidad
+CREATE TABLE Nacionalidad (
+    id_nacionalidad INT PRIMARY KEY,
+    nac_nombre VARCHAR(500)
+);
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+-- Tabla Usuario
+CREATE TABLE Usuario (
+    id_usuario INT PRIMARY KEY,
+    usu_idRol INT,
+    usu_nombre VARCHAR(100),
+    usu_t_documento VARCHAR(50),
+    usu_correo VARCHAR(100),
+    usu_idNacionalidad INT,
+    FOREIGN KEY (usu_idRol) REFERENCES Rol(id_rol),
+    FOREIGN KEY (usu_idNacionalidad) REFERENCES Nacionalidad(id_nacionalidad)
+);
 
---
--- Base de datos: `hotelixhub`
---
+-- Tabla Categoria
+CREATE TABLE Categoria (
+    id_categoria INT PRIMARY KEY,
+    cat_Nombre VARCHAR(50)
+);
 
--- --------------------------------------------------------
+-- Tabla Producto
+CREATE TABLE Producto (
+    id_producto INT PRIMARY KEY,
+    pro_nombre VARCHAR(50),
+    pro_descripcion VARCHAR(50),
+    pro_precio DECIMAL(10,2),
+    pro_id_categoria INT,
+    FOREIGN KEY (pro_id_categoria) REFERENCES Categoria(id_categoria)
+);
 
---
--- Estructura de tabla para la tabla `catalogo`
---
+-- Tabla Venta
+CREATE TABLE Venta (
+    id_venta INT PRIMARY KEY,
+    ven_idUsuario INT,
+    ven_fecha DATE,
+    total DECIMAL(10,2),
+    FOREIGN KEY (ven_idUsuario) REFERENCES Usuario(id_usuario)
+);
 
-CREATE TABLE `catalogo` (
-  `id_catalogo` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- Tabla Detalle_Venta
+CREATE TABLE detalle_venta (
+    id_detalle INT PRIMARY KEY,
+    det_idVenta INT,
+    id_productos INT,
+    unidades INT,
+    precio_unitario DECIMAL(10,2),
+    subtotal DECIMAL(10,2),
+    FOREIGN KEY (det_idVenta) REFERENCES Venta(id_venta),
+    FOREIGN KEY (id_productos) REFERENCES Producto(id_producto)
+);
 
--- --------------------------------------------------------
+-- Tabla Tipo_Habitacion
+CREATE TABLE Tipo_Habitacion (
+    id_tipohab INT PRIMARY KEY,
+    tip_idHabitacion INT,
+    tip_nombre VARCHAR(20)
+);
 
---
--- Estructura de tabla para la tabla `categoria`
---
+-- Tabla Habitacion
+CREATE TABLE Habitacion (
+    id_habitacion INT PRIMARY KEY,
+    hab_idtipohab INT,
+    hab_precio INT,
+    hab_estado ENUM('disponible', 'ocupada', 'mantenimiento'),
+    FOREIGN KEY (hab_idtipohab) REFERENCES Tipo_Habitacion(id_tipohab)
+);
 
-CREATE TABLE `categoria` (
-  `id_categoria` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `habitacion`
---
-
-CREATE TABLE `habitacion` (
-  `id_habitacion` int(11) NOT NULL,
-  `id_tipohab` int(11) NOT NULL,
-  `precio` int(11) NOT NULL,
-  `estado` varchar(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `producto`
---
-
-CREATE TABLE `producto` (
-  `id_producto` int(11) NOT NULL,
-  `id_categoria` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL,
-  `descripcion` varchar(20) NOT NULL,
-  `precio` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `reservas`
---
-
-CREATE TABLE `reservas` (
-  `id_reserva` int(11) NOT NULL,
-  `id_habitacion` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `fecha_entrada` date NOT NULL,
-  `fecha_salida` date NOT NULL,
-  `estado` varchar(10) NOT NULL,
-  `fecha` date NOT NULL,
-  `total` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `rol`
---
-
-CREATE TABLE `rol` (
-  `id_rol` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tipo_habitacion`
---
-
-CREATE TABLE `tipo_habitacion` (
-  `id_tipohab` int(11) NOT NULL,
-  `id_habitacion` int(11) NOT NULL,
-  `nombre` varchar(20) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
-
-CREATE TABLE `usuario` (
-  `id_usuario` int(11) NOT NULL,
-  `id_rol` int(11) NOT NULL,
-  `nombre` varchar(50) NOT NULL,
-  `t_documento` varchar(20) NOT NULL,
-  `no_documento` int(20) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `nacionalidad` varchar(100) NOT NULL,
-  `contraseña` varchar(12) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `venta`
---
-
-CREATE TABLE `venta` (
-  `id_venta` int(11) NOT NULL,
-  `id_usuario` int(11) NOT NULL,
-  `id_catalogo` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
-  `unidades` int(10) NOT NULL,
-  `fecha` datetime DEFAULT NULL,
-  `total` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `catalogo`
---
-ALTER TABLE `catalogo`
-  ADD PRIMARY KEY (`id_catalogo`),
-  ADD KEY `id_producto` (`id_producto`);
-
---
--- Indices de la tabla `categoria`
---
-ALTER TABLE `categoria`
-  ADD PRIMARY KEY (`id_categoria`);
-
---
--- Indices de la tabla `habitacion`
---
-ALTER TABLE `habitacion`
-  ADD PRIMARY KEY (`id_habitacion`),
-  ADD KEY `id_tipohab` (`id_tipohab`);
-
---
--- Indices de la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD PRIMARY KEY (`id_producto`),
-  ADD KEY `id_categoria` (`id_categoria`);
-
---
--- Indices de la tabla `reservas`
---
-ALTER TABLE `reservas`
-  ADD PRIMARY KEY (`id_reserva`),
-  ADD KEY `id_habitacion` (`id_habitacion`),
-  ADD KEY `id_usuario` (`id_usuario`);
-
---
--- Indices de la tabla `rol`
---
-ALTER TABLE `rol`
-  ADD PRIMARY KEY (`id_rol`);
-
---
--- Indices de la tabla `tipo_habitacion`
---
-ALTER TABLE `tipo_habitacion`
-  ADD PRIMARY KEY (`id_tipohab`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id_usuario`),
-  ADD KEY `id_rol` (`id_rol`);
-
---
--- Indices de la tabla `venta`
---
-ALTER TABLE `venta`
-  ADD PRIMARY KEY (`id_venta`),
-  ADD KEY `id_usuario` (`id_usuario`),
-  ADD KEY `id_producto` (`id_producto`),
-  ADD KEY `id_catalogo` (`id_catalogo`);
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `catalogo`
---
-ALTER TABLE `catalogo`
-  ADD CONSTRAINT `catalogo_ibfk_1` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`);
-
---
--- Filtros para la tabla `habitacion`
---
-ALTER TABLE `habitacion`
-  ADD CONSTRAINT `habitacion_ibfk_1` FOREIGN KEY (`id_tipohab`) REFERENCES `tipo_habitacion` (`id_tipohab`);
-
---
--- Filtros para la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD CONSTRAINT `producto_ibfk_1` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`);
-
---
--- Filtros para la tabla `reservas`
---
-ALTER TABLE `reservas`
-  ADD CONSTRAINT `reservas_ibfk_1` FOREIGN KEY (`id_habitacion`) REFERENCES `habitacion` (`id_habitacion`),
-  ADD CONSTRAINT `reservas_ibfk_2` FOREIGN KEY (`id_habitacion`) REFERENCES `habitacion` (`id_habitacion`),
-  ADD CONSTRAINT `reservas_ibfk_3` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
-
---
--- Filtros para la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD CONSTRAINT `usuario_ibfk_1` FOREIGN KEY (`id_rol`) REFERENCES `rol` (`id_rol`);
-
---
--- Filtros para la tabla `venta`
---
-ALTER TABLE `venta`
-  ADD CONSTRAINT `venta_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`),
-  ADD CONSTRAINT `venta_ibfk_2` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`),
-  ADD CONSTRAINT `venta_ibfk_3` FOREIGN KEY (`id_catalogo`) REFERENCES `catalogo` (`id_catalogo`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+-- Tabla Reservas
+CREATE TABLE Reservas (
+    id_reserva INT PRIMARY KEY,
+    re_idiHabitacion INT,
+    re_fechaEntrada DATE,
+    re_fechaSalida DATE,
+    re_estado ENUM('pendiente', 'confirmada', 'cancelada'),
+    re_fecha DATE,
+    re_total INT,
+    re_idusuario INT,
+    FOREIGN KEY (re_idiHabitacion) REFERENCES Habitacion(id_habitacion),
+    FOREIGN KEY (re_idusuario) REFERENCES Usuario(id_usuario)
+);
