@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HotelixHub - Clientes</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      display: flex;
+      background-color: #f4f4f4;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+            width: 200px;
+            background-color: var(--primary);
+            background: #5c59c1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 0;
+        }
+
+        .sidebar a{
+            width: 200px;
+            background-color: var(--primary);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            padding: 20px    0;
+        }
+
+        .logo {
+            padding: 10px 20px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .nav-item {
+            padding: 12px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 5px 10px;
+            border-radius: 8px;
+        }
+
+
+        .nav-item.active {
+            background-color: white;
+        }
+
+        .nav-item:hover {
+            background-color: #5c59c1;
+        }
+
+        .nav-item.dropdown {
+            position: relative;
+        }
+
+        .dropdown-icon {
+            float: right;
+        }
+
+
+        .usu {
+            position: relative;
+            padding: 12px 50px;
+            margin: 10px ;
+            cursor: pointer;
+            background: #ffffff;
+            transition: background-color 0.3s;
+            color: #000000;
+            border-radius: 8px;
+            font-size: 10px;    
+            border: 1px solid transparent;
+            font-weight: 400;
+            cursor: pointer;
+        }
+
+        .usu button{
+            cursor: pointer;
+            background: #ffffff;
+            color: #0a0a0a;
+            border-radius: 25px;
+            font-size: 15px;
+            border: 1px solid transparent;
+            cursor: pointer;
+        }
+
+        .usu-contenido {
+            display: none;
+            position: absolute;
+            right: 0;
+            background-color: white;
+            min-width: 200px;
+            border-radius: 4px;
+
+        }
+
+        .usu-contenido a {
+            color: #333;
+            padding: 10px 14px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .usu-contenido a:hover {
+            background-color: #f1f1f1;
+        }
+
+
+        .usu:hover .usu-contenido {
+            display: block;
+        }
+
+        .usu::after {
+            content: "▼";
+            font-size: 0.6rem;
+            margin-left: 5px;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .usu:hover::after {
+            transform: rotate(180deg);
+        }
+
+    .main {
+      flex: 1;
+      padding: 20px 30px;
+      display: flex;
+      flex-direction: column;
+      background-color: #f0f0f0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      background-color: white;
+      border-radius: 5px;
+      padding: 5px;
+      width: 300px;
+      border: 1px solid #ddd;
+    }
+
+    .search-bar input {
+      padding: 8px;
+      border: none;
+      outline: none;
+      flex: 1;
+    }
+
+    .search-bar button {
+      border: none;
+      background: transparent;
+      padding: 5px;
+      cursor: pointer;
+      color: #666;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .profile-name {
+      color: #333;
+      font-weight: bold;
+    }
+
+    .profile-img {
+      width: 40px;
+      height: 40px;
+      background-color: #4f78ff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .page-title {
+      font-size: 24px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .page-subtitle {
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #666;
+    }
+
+    .client-details {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .client-detail-header {
+      display: grid;
+      grid-template-columns: 25% 25% 25% 25%;
+      background-color: #4f78ff;
+      color: white;
+      padding: 12px 20px;
+    }
+
+    .client-detail-content {
+      display: grid;
+      grid-template-columns: 25% 25% 25% 25%;
+      padding: 15px 20px;
+      align-items: center;
+    }
+
+    .client-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .client-avatar {
+      width: 60px;
+      height: 60px;
+      background-color: #4f78ff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 24px;
+    }
+
+    .client-data {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .client-data .name {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .client-data .details {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .room-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .room-details .room-number {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .room-details .room-type {
+      color: #666;
+    }
+
+    .room-details .room-extra {
+      color: #999;
+      font-size: 13px;
+    }
+
+    .reservation-details {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .reservation-dates {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .reservation-status {
+      font-weight: bold;
+      color: #28a745;
+    }
+
+    .value-details {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .value-item {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .value-total {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+    }
+
+    .action-button {
+      padding: 5px;
+      background: #e0e0e0;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      color: #4f78ff;
+    }
+
+    .clients-table {
+      background: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .clients-table-header {
+      display: grid;
+      grid-template-columns: 15% 30% 15% 15% 15% 10%;
+      background-color: #4f78ff;
+      color: white;
+      padding: 12px 20px;
+    }
+
+    .clients-table-row {
+      display: grid;
+      grid-template-columns: 15% 30% 15% 15% 15% 10%;
+      padding: 12px 20px;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+
+    .room-cell {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .room-number {
+      font-weight: bold;
+      color: #333;
+    }
+
+    .room-type {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .client-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .client-icon {
+      width: 40px;
+      height: 40px;
+      background-color: #4f78ff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+
+    .client-name {
+      font-size: 14px;
+    }
+
+    .date-cell {
+      font-size: 14px;
+      color: #333;
+    }
+
+    .status-cell {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .status-indicator {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .status-confirmed {
+      background-color: #28a745;
+    }
+
+    .status-canceled {
+      background-color: #dc3545;
+    }
+
+    .status-pending {
+      background-color: #ffc107;
+    }
+
+    .action-cell {
+      display: flex;
+      gap: 5px;
+      justify-content: flex-end;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sidebar">
+    <div class="logo">HOTELIXHUB</div>
+    <a href="./dashAdmin.html"><button class="nav-item active">Inicio</button></a>
+    <a href="./habitacion/index.html"><button class="nav-item">Habitaciones</button></a>
+  
+    <div class="usu">
+        <button id="usuario">Usuarios</button>
+        <div class="usu-contenido">
+            <a href="./dashEmpleados.html">Empleados</a>
+            <a href="./dashClientes.html">Clientes</a>
+        </div>
+    </div>
+  
+    <a href="./productos.html"><button class="nav-item">Productos</button></a>
+  </div>   
+
+  <main class="main">
+    <header class="header">
+      <div class="search-bar">
+        <input type="text" placeholder="Buscar" />
+        <button>🔍</button>
+        <button>🔽</button>
+      </div>
+      <div class="profile">
+        <span class="profile-name">Jose Cuervo</span>
+        <div class="profile-img">👤</div>
+      </div>
+    </header>
+
+    <h1 class="page-title">Clientes</h1>
+    <h2 class="page-subtitle">Detalles</h2>
+
+    <section class="client-details">
+      <div class="client-detail-header">
+        <div>Info. Cliente</div>
+        <div>Info. Habitación</div>
+        <div>Info. Reserva</div>
+        <div>Valor</div>
+      </div>
+      <div class="client-detail-content">
+        <div class="client-info">
+          <div class="client-avatar">👤</div>
+          <div class="client-data">
+            <div class="name">Juan Mauricio Perez Florez</div>
+            <div class="details">C.C. 32546223</div>
+            <div class="details">Nacionalidad: Colombia</div>
+            <div class="details">Cel: 3163968546</div>
+          </div>
+        </div>
+        <div class="room-details">
+          <div class="room-number">Indicativo: 301</div>
+          <div class="room-type">Tipo: Doble</div>
+          <div class="room-extra">Adicional: Romantica</div>
+        </div>
+        <div class="reservation-details">
+          <div class="reservation-dates">
+            <div>Check-In: 15/02/2024</div>
+            <div>Check-Out: 16/02/2024</div>
+          </div>
+          <div class="reservation-status">Estado: Confirmado</div>
+        </div>
+        <div class="value-details">
+          <div class="value-item"><span>Habitación:</span> <span>250k</span></div>
+          <div class="value-item"><span>Adicional:</span> <span>50k</span></div>
+          <div class="value-item"><span>Comida:</span> <span>80k</span></div>
+          <div class="value-item"><span>Abono:</span> <span>300k</span></div>
+          <div class="value-item value-total"><span>Saldo:</span> <span>80k</span></div>
+          <div class="action-buttons">
+            <button class="action-button">✏</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="clients-table">
+      <div class="clients-table-header">
+        <div>Habitacion</div>
+        <div>Nombre</div>
+        <div>Check-In</div>
+        <div>Check-Out</div>
+        <div>Estado</div>
+        <div></div>
+      </div>
+      <div class="clients-table-row">
+        <div class="room-cell">
+          <div class="room-number">301</div>
+          <div class="room-type">Doble</div>
+        </div>
+        <div class="client-cell">
+          <div class="client-icon">👤</div>
+          <div class="client-name">Juan Mauricio Perez Florez</div>
+        </div>
+        <div class="date-cell">15 - Febrero - 2024</div>
+        <div class="date-cell">16 - Febrero - 2024</div>
+        <div class="status-cell">
+          <div class="status-indicator status-confirmed"></div>
+          <span>Confirmado</span>
+        </div>
+        <div class="action-cell"></div>
+      </div>
+      <div class="clients-table-row">
+        <div class="room-cell">
+          <div class="room-number">205</div>
+          <div class="room-type">Sencilla</div>
+        </div>
+        <div class="client-cell">
+          <div class="client-icon">👤</div>
+          <div class="client-name">Ingrid Lorena Acevedo</div>
+        </div>
+        <div class="date-cell">20 - Marzo - 2024</div>
+        <div class="date-cell">21 - Marzo - 2024</div>
+        <div class="status-cell">
+          <div class="status-indicator status-canceled"></div>
+          <span>Cancelado</span>
+        </div>
+        <div class="action-cell">
+          <button class="action-button">✏</button>
+          <button class="action-button">📄</button>
+          <button class="action-button">🔍</button>
+        </div>
+      </div>
+      <div class="clients-table-row">
+        <div class="room-cell">
+          <div class="room-number">506</div>
+          <div class="room-type">Triple</div>
+        </div>
+        <div class="client-cell">
+          <div class="client-icon">👤</div>
+          <div class="client-name">Maria Camila Florez Ortiz</div>
+        </div>
+        <div class="date-cell">3 - Julio - 2024</div>
+        <div class="date-cell">8 - Julio - 2024</div>
+        <div class="status-cell">
+          <div class="status-indicator status-pending"></div>
+          <span>Por confirmar</span>
+        </div>
+        <div class="action-cell">
+          <button class="action-button">✏</button>
+          <button class="action-button">📄</button>
+          <button class="action-button">🔍</button>
+        </div>
+      </div>
+      <div class="clients-table-row">
+        <div class="room-cell">
+          <div class="room-number">403</div>
+          <div class="room-type">Doble</div>
+        </div>
+        <div class="client-cell">
+          <div class="client-icon">👤</div>
+          <div class="client-name">Julian Santiago Montoya</div>
+        </div>
+        <div class="date-cell">2 - Septiembre - 2024</div>
+        <div class="date-cell">20 - Septiembre - 2024</div>
+        <div class="status-cell">
+          <div class="status-indicator status-confirmed"></div>
+          <span>Confirmado</span>
+        </div>
+        <div class="action-cell">
+          <button class="action-button">✏</button>
+          <button class="action-button">📄</button>
+          <button class="action-button">🔍</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+</body>
+</html>
