@@ -1,0 +1,93 @@
+CREATE DATABASE HotelDB;
+USE HotelDB;
+
+-- Tabla Rol
+CREATE TABLE Rol (
+    id_rol INT PRIMARY KEY,
+    rol_nombre VARCHAR(11)
+);
+
+-- Tabla Nacionalidad
+CREATE TABLE Nacionalidad (
+    id_nacionalidad INT PRIMARY KEY,
+    nac_nombre VARCHAR(500)
+);
+
+-- Tabla Usuario
+CREATE TABLE Usuario (
+    id_usuario INT PRIMARY KEY,
+    usu_idRol INT,
+    usu_nombre VARCHAR(100),
+    usu_t_documento VARCHAR(50),
+    usu_correo VARCHAR(100),
+    usu_idNacionalidad INT,
+    FOREIGN KEY (usu_idRol) REFERENCES Rol(id_rol),
+    FOREIGN KEY (usu_idNacionalidad) REFERENCES Nacionalidad(id_nacionalidad)
+);
+
+-- Tabla Categoria
+CREATE TABLE Categoria (
+    id_categoria INT PRIMARY KEY,
+    cat_Nombre VARCHAR(50)
+);
+
+-- Tabla Producto
+CREATE TABLE Producto (
+    id_producto INT PRIMARY KEY,
+    pro_nombre VARCHAR(50),
+    pro_descripcion VARCHAR(50),
+    pro_precio DECIMAL(10,2),
+    pro_id_categoria INT,
+    FOREIGN KEY (pro_id_categoria) REFERENCES Categoria(id_categoria)
+);
+
+-- Tabla Venta
+CREATE TABLE Venta (
+    id_venta INT PRIMARY KEY,
+    ven_idUsuario INT,
+    ven_fecha DATE,
+    total DECIMAL(10,2),
+    FOREIGN KEY (ven_idUsuario) REFERENCES Usuario(id_usuario)
+);
+
+-- Tabla Detalle_Venta
+CREATE TABLE detalle_venta (
+    id_detalle INT PRIMARY KEY,
+    det_idVenta INT,
+    id_productos INT,
+    unidades INT,
+    precio_unitario DECIMAL(10,2),
+    subtotal DECIMAL(10,2),
+    FOREIGN KEY (det_idVenta) REFERENCES Venta(id_venta),
+    FOREIGN KEY (id_productos) REFERENCES Producto(id_producto)
+);
+
+-- Tabla Tipo_Habitacion
+CREATE TABLE Tipo_Habitacion (
+    id_tipohab INT PRIMARY KEY,
+    tip_idHabitacion INT,
+    tip_nombre VARCHAR(20)
+);
+
+-- Tabla Habitacion
+CREATE TABLE Habitacion (
+    id_habitacion INT PRIMARY KEY,
+    hab_idtipohab INT,
+    hab_precio INT,
+    hab_estado ENUM('disponible', 'ocupada', 'mantenimiento'),
+    FOREIGN KEY (hab_idtipohab) REFERENCES Tipo_Habitacion(id_tipohab)
+);
+
+-- Tabla Reservas
+CREATE TABLE Reservas (
+    id_reserva INT PRIMARY KEY,
+    re_idiHabitacion INT,
+    re_fechaEntrada DATE,
+    re_fechaSalida DATE,
+    re_estado ENUM('pendiente', 'confirmada', 'cancelada'),
+    re_fecha DATE,
+    re_total INT,
+    re_idusuario INT,
+    FOREIGN KEY (re_idiHabitacion) REFERENCES Habitacion(id_habitacion),
+    FOREIGN KEY (re_idusuario) REFERENCES Usuario(id_usuario)
+);
