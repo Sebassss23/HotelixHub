@@ -1,251 +1,311 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-/* Estilos generales */
+/* Estilos generales (reutilizables) */
 body {
     font-family: "Outfit", sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f5f7fa;
+    background: #4b70f564;
     color: #333;
 }
 
 .dashboard-container {
     display: grid;
-    grid-template-columns: 250px 1fr;
     min-height: 100vh;
 }
 
-/* Panel lateral */
-.barra-lateral {
+/* NAV */
+.nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     background-color: #402E7A;
-    color: white;
-    padding: 20px;
+    padding: 30px 50px;
 }
+  
+.nav-izquierda img {
+    max-height: 80px;
+}
+  
+.nav-centro {
+    text-align: center;
+    flex-grow: 1;
+}
+  
+.nav-centro h2 {
+    color: #ffffff;
+    font-size: 36px;
+    margin: 0;
+}
+  
+.nav-centro p {
+    color: #ffffff;
+    font-size: 23px;
+    margin: 10px 0 0;
+}
+  
+.nav-derecha {
+    display: flex;
+    align-items: center;
+}
+  
+#btn-nav {
+    background: transparent;
+    color: #ffffff;
+    background: #4B70F5;
+    border: 3px solid #ffffff;
+    padding: 12px 30px;
+    margin: 20px 9px;
+    border-radius: 10px;
+    transition: .4s;
+    cursor: pointer;
+    font-size: 22px;
+}
+  
+#btn-nav:hover {
+    background: #3DC2EC;
+    color: #402E7A;
+    border-radius: 10px;
+    border: 3px solid #ffffff;
+    font-size: 22px;
+}
+  
 
-.barra-lateral h2 {
+.sidebar h2 {
     color: #ecf0f1;
+    border-bottom: 1px solid #0080ff;
     padding-bottom: 10px;
 }
 
-.menu-item {
-    padding: 12px 15px;
-    margin: 20px 0;
-    cursor: pointer;
-    background: #4B70F5;
-    transition: background-color 0.3s;
-    color: #ffffff;
-    border-radius: 25px;
-    font-size: 18px;
-    border: 1px solid transparent;
-    font-weight: 400;
-    cursor: pointer;
+/* TARJETAS HABITACIONES*/
+.habitaciones {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px;
+  background: #ffffff;
 }
 
-.menu-item {animation: slideIn 2s;}
-@keyframes slideIn{
-    0%{transform: translateX(0);}
-    100%{transform: translateX(20%);}
+.card-hab {
+  border: 3px solid #4B70F5;
+  border-radius: 12px;
+  width: 350px;
+  height: 600px;
+  text-align: center;
+  padding: 35px;
+  margin: 25px;
+  background: #4b70f55e;
+  box-shadow: 0 10px 30px #402E7A;
 }
 
-.menu-item:hover {
-
-    box-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 0px #ffffff ;
+.card-hab img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 3px solid #4B70F5;
 }
 
-.usu button{
-    padding: 12px 15px;
-    cursor: pointer;
-    background: #4B70F5;
-    transition: background-color 0.3s;
-    color: #ffffff;
-    border-radius: 25px;
-    font-size: 18px;
-    border: 1px solid transparent;
-    font-weight: 400;
-
+.card-hab h3 {
+  margin-top: 12px;
+  font-size: 25px;
+  color: #402E7A;
 }
 
-.usu button{animation: slideIn 2s;}
-@keyframes slideIn{
-    0%{transform: translateX(0);}
-    100%{transform: translateX(20%);}
+.card-hab ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    text-align: left;
+    padding-left: 15px;
 }
 
-.usu button:hover{
-    box-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 40px #ffffff, 0 0 80px #ffffff, 0 0 0px #ffffff ;
+.card-hab ul li {
+  font-size: 20px;
+  margin: 6px 0;
 }
 
-.usu-contenido {
-    display: none;
-    position: absolute;
-    right: 0;
-    background-color: white;
-    min-width: 200px;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    border-radius: 4px;
-
+.precio {
+  font-size: 22px;
+  font-weight: bold;
+  margin: 20px 15px;
+  text-align: left;
 }
 
-.usu-contenido a {
-    color: #333;
-    padding: 10px 14px;
-    text-decoration: none;
-    display: block;
-    transition: background-color 0.3s;
+.precio span {
+  font-size: 14px;
+  color: #555;
 }
 
-.usu-contenido a:hover {
-    background-color: #f1f1f1;
-}
-
-
-.usu:hover .usu-contenido {
-    display: block;
-}
-
-.usu::after {
-    content: "▼";
-    font-size: 0.6rem;
-    margin-left: 5px;
-    display: inline-block;
-    transition: transform 0.3s;
-}
-
-.usu::after{animation: slideIn 2s;}
-    @keyframes slideIn{
-    0%{transform: translateX(0);}
-    100%{transform: translateX(20%);}
-}
-
-.usu:hover::after {
-    transform: rotate(180deg);
-}
-
-/* Contenido principal */
-.main-content {
-    padding: 70px
-}
-
-.main-content p{
-    color: #000000;
+.btn-reservar {
     font-size: 20px;
+  display: inline-block;
+  background-color: #402E7A;
+  color: white;
+  padding: 20px 50px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: 0.3s ease;
+}
+
+.btn-reservar:hover {
+  background-color: #4B70F5;
+}
+
+
+/* CONTENIDO PRINCIPAL */
+.main-content {
+    padding: 30px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     margin-bottom: 30px;
+    text-align: center;
 }
 
 .header h1 {
-    color: #2c3e50;
+    color: #4B70F5;
     margin: 0;
 }
 
-.header button{
-    padding: 15px 35px;
-    background: #402E7A;
-    color: #ffffff;
-    border-radius: 10px;
+.header p {
+    color: #000000;
+    margin-top: 25px;
     font-size: 20px;
-    border: 1px solid transparent;
-    font-weight: 400;
+}
+
+/* FORMULARIO RESERVAS */
+.reserva-form {
+    justify-content: center;
+    margin-left: 460px;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 1000px;
+}
+
+.form-seccion {
+    margin-bottom: 25px;
+}
+
+.form-seccion h3 {
+    color: #4B70F5;
+    margin-top: 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    font-size: 23px;
+}
+
+.form-grupo {
+    margin-bottom: 15px;
+}
+
+.form-grupo label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-grupo input, 
+.form-grupo select, 
+.form-grupo textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-grupo textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.btn {
+    font-size: 18px;
+    background: transparent;
+    color: #402E7A;
+    border: 3px solid #4B70F5;
+    padding: 14px 40px;
+    border-radius: 50px;
+    transition: .4s;
     cursor: pointer;
 }
 
-/* Tarjetas de habitaciones */
-.habitaciones-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+.btn:hover{
+    background: #4B70F5;
+    color: #ffffff;
+    border-radius: 50px;
+    border: 3px solid #3DC2EC;
 }
 
-.habitacion-card {
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/*VALIDACIONES JAVA SCRIPT*/
+.error-js {
+    color: #e74c3c;
+    font-size: 0.8rem;
+    margin-top: 5px;
+    display: block;
+  }
+  
+  .input-error {
+    border: 2px solid #e74c3c !important;
+  }  
+
+/* Responsive */
+@media (max-width: 768px) {
+    .dashboard-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .sidebar {
+        display: none;
+    }
+}
+
+/* Estilos para el modal */
+.modal-overlay {
+    display: none; /* Oculto por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
     background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 100%;
 }
 
-.habitacion-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 30px;
+    cursor: pointer;
 }
 
-.habitacion-card h3 {
-    color: #4B70F5;
-    margin-top: 0;
-    border-bottom: 1px solid #4B70F5;
+.historial-contenedor {
+    margin-top: 20px;
+}
+
+.reserva-item {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ccc;
     padding-bottom: 10px;
 }
 
-.habitacion-features {
-    list-style-type: none;
-    padding: 0;
-}
-
-.habitacion-features li {
-    padding: 5px 0;
-    display: flex;
-    align-items: center;
-}
-
-
-.habitacion-precio {
-    font-weight: bold;
-    color: #402E7A;
-    font-size: 1.2em;
-    margin: 15px 0;
-}
-
-.habitacion-card img{
-    border: 1px solid #0037ff9d;
-    max-width: 309px;
-    max-height: 209px;
-    object-fit: contain;
-}
-
-.btn-V {
-    padding: 10px 30px;
-    background: #1eff00;
-    color: #000000;
-    border-radius: 10px;
-    font-size: 15px;
-    border: 1px solid transparent;
-    font-weight: 400;
-    cursor: pointer;
-}
-
-.btn-R {
-    padding: 10px 30px;
-    background: #ff0000;
-    color: #000000;
-    border-radius: 10px;
-    font-size: 15px;
-    border: 1px solid transparent;
-    font-weight: 400;
-    cursor: pointer;
-}
-
-.btn-A {
-    padding: 10px 30px;
-    background: #ffd000;
-    color: #000000;
-    border-radius: 10px;
-    font-size: 15px;
-    border: 1px solid transparent;
-    font-weight: 400;
-    cursor: pointer;
-}
-
-.btn-M {
-    padding: 10px 30px;
-    background: #0051ff;
-    color: #000000;
-    border-radius: 10px;
-    font-size: 15px;
-    border: 1px solid transparent;
-    font-weight: 400;
-    cursor: pointer;
+.reserva-item p {
+    margin: 5px 0;
 }

@@ -1,113 +1,293 @@
 <!DOCTYPE html>
-    <html lang="es">
-    <head>
+<html lang="es">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Habitaciones</title>
+    <title>Reservas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="dashboard-container">
-        <!-- Panel lateral -->
-        <div class="barra-lateral">
-
-            <div class="logo">
-                <img src="img/Logo Positivo.png" alt="Logo" width="200px" height="70px">
+        <!--NAV-->
+        <div class="nav">
+            <div class="nav-izquierda">
+              <img src="img/Logo Positivo.png" alt="logo" width="250" height="350">
             </div>
-            <br><br>
-            
-            <a href="../dashAdmin.html"><div class="menu-item">Inicio</div></a>
-            <div class="menu-item">Habitaciones</div>
-
-            <div class="usu">
-                <button class="usuario">Usuarios</button>
-                <div class="usu-contenido">
-                    <a href="../dashEmpleados.html">Empleados   </a>
-                    <a href="../dashClientes.html">Clientes</a>
-                </div>
+          
+            <div class="nav-centro">
+              <h2>Reservas</h2>
+              <p>Tu descanso empieza aquí</p>
             </div>
-            <a href="../productos.html"><div class="menu-item">Productos</div></a>
+          
+            <div class="nav-derecha">
+              <button id="btn-nav">Mis Reservas</button>
+            </div>
         </div>
-
-        <!-- Contenido principal -->
+          
+        <!-- TARJETAS DE HABITACIONES -->
+        <section class="habitaciones">
+            <div class="card-hab">
+              <img src="img/sencilla.jpg" alt="Habitación Sencilla">
+              <h3>Habitación Sencilla</h3>
+              <ul>
+                <li>👤 1</li>
+                <li>📺 TV</li>
+                <li>📶 Wifi</li>
+              </ul>
+              <p class="precio">$150.000 <span>cop</span></p>
+              <a href="#formulario-reserva" class="btn-reservar"><strong>Reservar</strong></a>
+            </div>
+          
+            <div class="card-hab">
+              <img src="img/doble.webp" alt="Habitación Doble">
+              <h3>Habitación Doble</h3>
+              <ul>
+                <li>👤 2</li>
+                <li>📺 TV</li>
+                <li>📶 Wifi</li>
+              </ul>
+              <p class="precio">$220.000 <span>cop</span></p>
+              <a href="#formulario-reserva" class="btn-reservar"><strong>Reservar</strong></a>
+            </div>
+          
+            <div class="card-hab">
+              <img src="img/triple.webp" alt="Habitación Triple">
+              <h3>Habitación Triple</h3>
+              <ul>
+                <li>👤 3</li>
+                <li>📺 TV</li>
+                <li>📶 Wifi</li>
+              </ul>
+              <p class="precio">$300.000 <span>cop</span></p>
+              <a href="#formulario-reserva" class="btn-reservar"><strong>Reservar</strong></a>
+            </div>
+        </section>
+          
+        <!-- CONTENIDO PRINCIPAL -->
         <div class="main-content">
             <div class="header">
-                <h1>Habitaciones </h1>
-                <button id="habitacion">Agregar Habitación</button>
+                <h1>Nueva Reserva</h1>
+                <p>Completa el formulario para realizar tu reserva</p>
             </div>
-            <p>Gestión y estado de las habitaciones del hotel.</p>
 
-            <!-- Listado de habitaciones -->
-            <div class="habitaciones-container">
-                <!-- Habitación 201 -->
-                <div class="habitacion-card">
-                    <h3>Habitación 201</h3>
-                    <ul class="habitacion-features">
-                        <li>Sencilla</li>
-                        <li>Pasarela</li>
-                        <li>Precio por Noche </li>
-                        <li>Servicios Incluidos</li>
-                        <li>TV, Wi-Fi</li>
-                    </ul>
-                    <div class="img">
-                        <img src="img/habitacion_sencilla.jpg" alt="sencilla">
+            <!-- FORMULARIO RESERVA -->
+            <form class="reserva-form" id="formulario-reserva">
+                <div class="form-seccion">
+                    <h3>Introduce tus Datos</h3>
+                    
+                    <div class="form-grupo">
+                        <label for="full-name">Nombre Completo</label>
+                        <input type="text" id="full-name" placeholder="Ingrese su nombre completo">
                     </div>
-                    <div class="habitacion-precio">$150.000 COP</div>
-                    <button class="btn-V">Disponible</button>
+                    
+                    <div class="form-grupo">
+                        <label for="phone">Teléfono</label>
+                        <input type="tel" id="phone" placeholder="Ingrese su numero de telefono">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="guests">Número de Huéspedes</label>
+                        <input type="number" id="guests" placeholder="Ingrese el numero de personas" min="1">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="email">Correo Electrónico</label>
+                        <input type="email" id="email" placeholder="ingrese su correo">
+                    </div>
                 </div>
 
-                <!-- Habitación 202 -->
-                <div class="habitacion-card">
-                    <h3>Habitación 202</h3>
-                    <ul class="habitacion-features">
-                        <li>Suite</li>
-                        <li>Pasarela</li>
-                        <li>Precio por Noche </li>
-                        <li>Servicios Incluidos</li>
-                        <li>TV, Wi-Fi</li>
-                    </ul>
-                    <div class="img">
-                        <img src="img/suite.jpg" alt="sencilla">
+                <div class="form-seccion">
+                    <h3>Detalles de la Estancia</h3>
+                    
+                    <div class="form-grupo">
+                        <label for="check-in">Fecha de Entrada</label>
+                        <input type="date" id="check-in">
                     </div>
-                    <div class="habitacion-precio">$300.000 COP</div>
-                    <button class="btn-R">Ocupada</button>
+                    
+                    <div class="form-grupo">
+                        <label for="check-out">Fecha de Salida</label>
+                        <input type="date" id="check-out">
+                    </div>
+                    
+                    <div class="form-grupo">
+                        <label for="special-requests">Servicios Especiales</label>
+                        <textarea id="special-requests" placeholder="Ingrese los servicios adicionales"></textarea>
+                    </div>
                 </div>
 
-                <!-- Habitación 203 -->
-                <div class="habitacion-card">
-                    <h3>Habitación 203</h3>
-                    <ul class="habitacion-features">
-                        <li>Doble</li>
-                        <li>Pasarela</li>
-                        <li>Precio por Noche </li>
-                        <li>Servicios Incluidos</li>
-                        <li>TV, Wi-Fi</li>
-                    </ul>
-                    <div class="img">
-                        <img src="img/habitacion_doble.webp" alt="sencilla">
-                    </div>
-                    <div class="habitacion-precio">$170.000 COP</div>
-                    <button class="btn-A">Limpieza</button>
-                </div>
+                <button type="submit" class="btn btn-block"><strong>Confirmar Reserva</strong></button>
+            </form>
+        </div>
+    </div>
 
-                <!-- Habitación 204 -->
-                <div class="habitacion-card">
-                    <h3>Habitación 204</h3>
-                    <ul class="habitacion-features">
-                        <li>Triple</li>
-                        <li>Pasarela</li>
-                        <li>Precio por Noche </li>
-                        <li>Servicios Incluidos</li>
-                        <li>TV, Wi-Fi</li>
-                    </ul>
-                    <div class="img">
-                        <img src="img/habitacion_triple.webp" alt="sencilla">
-                    </div>
-                    <div class="habitacion-precio">$200.000 COP</div>
-                    <button class="btn-M">Mantenimiento</button>
-                </div>
+    <!-- Modal de Historial de Reservas -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Historial de Reservas</h2>
+            <div class="historial-contenedor">
+                <!-- Aquí se cargarán las reservas guardadas -->
             </div>
         </div>
     </div>
+
+    <!-- VALIDACIONES JAVA SCRIPT-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.querySelector('.reserva-form');
+            const modalOverlay = document.getElementById('modal-overlay');
+            const closeModal = document.querySelector('.close-modal');
+            const historialContenedor = document.querySelector('.historial-contenedor');
+
+            // Abrir el modal
+            document.getElementById('btn-nav').addEventListener('click', function() {
+                mostrarHistorial();
+                modalOverlay.style.display = 'flex';
+            });
+
+            // Cerrar el modal
+            closeModal.addEventListener('click', function() {
+                modalOverlay.style.display = 'none';
+            });
+
+            // Cerrar el modal si el fondo es clickeado
+            modalOverlay.addEventListener('click', function(e) {
+                if (e.target === modalOverlay) {
+                    modalOverlay.style.display = 'none';
+                }
+            });
+
+            // Guardar reserva en el historial
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                limpiarErrores();
+                let isValid = true;
+
+                // Validar los campos
+                const nombre = document.getElementById('full-name');
+                const telefono = document.getElementById('phone');
+                const huespedes = document.getElementById('guests');
+                const email = document.getElementById('email');
+                const checkIn = document.getElementById('check-in');
+                const checkOut = document.getElementById('check-out');
+                const servicios = document.getElementById('special-requests');
+
+                // Validación de campos vacíos
+                if (nombre.value.trim().length < 3) {
+                    mostrarError(nombre, 'El nombre debe tener al menos 3 caracteres');
+                    isValid = false;
+                }
+                if (!telefono.value.trim()) {
+                    mostrarError(telefono, 'El teléfono es obligatorio');
+                    isValid = false;
+                }
+                if (!huespedes.value || huespedes.value < 1) {
+                    mostrarError(huespedes, 'El número de huéspedes debe ser mayor a 0');
+                    isValid = false;
+                }
+                if (!email.value.trim() || !/\S+@\S+\.\S+/.test(email.value)) {
+                    mostrarError(email, 'Por favor ingrese un correo válido');
+                    isValid = false;
+                }
+                if (!checkIn.value) {
+                    mostrarError(checkIn, 'La fecha de entrada es obligatoria');
+                    isValid = false;
+                }
+                if (!checkOut.value) {
+                    mostrarError(checkOut, 'La fecha de salida es obligatoria');
+                    isValid = false;
+                }
+
+                if (isValid) {
+                    // Crear un objeto con los datos de la reserva
+                    const reserva = {
+                        nombre: nombre.value,
+                        telefono: telefono.value,
+                        huespedes: huespedes.value,
+                        email: email.value,
+                        checkIn: checkIn.value,
+                        checkOut: checkOut.value,
+                        servicios: servicios.value
+                    };
+
+                    // Obtener el historial actual de reservas desde localStorage
+                    let historial = JSON.parse(localStorage.getItem('historialReservas')) || [];
+
+                    // Agregar la nueva reserva al historial
+                    historial.push(reserva);
+
+                    // Guardar el historial actualizado en localStorage
+                    localStorage.setItem('historialReservas', JSON.stringify(historial));
+
+                    // Limpiar el formulario
+                    form.reset();
+
+                    // Mostrar el historial actualizado
+                    mostrarHistorial();
+                }
+            });
+
+            // Función para mostrar el historial de reservas en el modal
+            function mostrarHistorial() {
+                // Obtener el historial desde localStorage
+                const historial = JSON.parse(localStorage.getItem('historialReservas')) || [];
+
+                // Limpiar el contenedor del historial
+                historialContenedor.innerHTML = '';
+
+                // Si hay reservas en el historial, mostrarlas
+                if (historial.length > 0) {
+                    historial.forEach((reserva, index) => {
+                        const reservaElemento = document.createElement('div');
+                        reservaElemento.classList.add('reserva-item');
+                        reservaElemento.innerHTML = `
+                            <p><strong>Nombre:</strong> ${reserva.nombre}</p>
+                            <p><strong>Teléfono:</strong> ${reserva.telefono}</p>
+                            <p><strong>Huéspedes:</strong> ${reserva.huespedes}</p>
+                            <p><strong>Correo:</strong> ${reserva.email}</p>
+                            <p><strong>Entrada:</strong> ${reserva.checkIn}</p>
+                            <p><strong>Salida:</strong> ${reserva.checkOut}</p>
+                            <p><strong>Servicios:</strong> ${reserva.servicios}</p>
+                            <button class="btn-eliminar" data-index="${index}">Eliminar Reserva</button>
+                        `;
+                        historialContenedor.appendChild(reservaElemento);
+                    });
+
+                    // Agregar evento de eliminación a cada botón
+                    const eliminarBtns = document.querySelectorAll('.btn-eliminar');
+                    eliminarBtns.forEach(btn => {
+                        btn.addEventListener('click', function() {
+                            const index = btn.getAttribute('data-index');
+                            eliminarReserva(index);
+                        });
+                    });
+                } else {
+                    historialContenedor.innerHTML = '<p>No hay reservas registradas.</p>';
+                }
+            }
+
+            // Función para eliminar una reserva
+            function eliminarReserva(index) {
+                let historial = JSON.parse(localStorage.getItem('historialReservas')) || [];
+                historial.splice(index, 1); // Eliminar la reserva seleccionada
+                localStorage.setItem('historialReservas', JSON.stringify(historial));
+                mostrarHistorial(); // Volver a mostrar el historial actualizado
+            }
+
+            // Función para mostrar los mensajes de error
+            function mostrarError(input, mensaje) {
+                const errorElemento = document.createElement('p');
+                errorElemento.classList.add('error');
+                errorElemento.textContent = mensaje;
+                input.parentElement.appendChild(errorElemento);
+            }
+
+            // Función para limpiar los errores
+            function limpiarErrores() {
+                const errores = document.querySelectorAll('.error');
+                errores.forEach(error => error.remove());
+            }
+        });
+    </script>
 </body>
 </html>
